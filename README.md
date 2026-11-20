@@ -10,7 +10,7 @@ A compact alpha-beta chess engine in 4 KB of Python, built for the
 
 ## The entry
 
-`main.py` is the whole engine: **3,473 bytes**, Python 3.13 stdlib only.
+`main.py` is the whole engine: **4,095 bytes**, Python 3.13 stdlib only.
 It is a packed entrypoint produced by the kit's own `makefun compress`
 from the readable source `source.py` (kept beside this repo; the bundle
 sends it along, never redacted). It talks HTTP to the competition env at
@@ -20,19 +20,19 @@ sends it along, never redacted). It talks HTTP to the competition env at
 
 - 0x88 board, Zobrist hashing, transposition table.
 - Negamax + alpha-beta with principal-variation search, null-move pruning
-  (R=3) and late-move reductions.
-- Killer moves + history ordering, quiescence search on captures.
-- Evaluation: material, formula piece-square tables, bishop pair, and a
-  tapered king safety term.
-- A **fixed node budget of 80,000 nodes per move** (iterative deepening),
+  and aggressive late-move reductions, aspiration windows.
+- Killer moves + history ordering, quiescence search with delta pruning.
+- Evaluation: material, tapered piece-square tables, passed pawns,
+  king pawn-shield, and the bishop pair.
+- A **fixed node budget of 120,000 nodes per move** (iterative deepening),
   never a clock — so the play is fully deterministic and replays
   move-for-move.
 
 ## Local result
 
 Practice trial-0 (6 games vs the first 6 gauntlet rungs, anchors 855–1596)
-with the same node budget: **3 wins, 2 draws, 1 loss — about Elo 1,451**,
-comfortably above the 1,154 practice floor.
+with the same node budget: **5 wins, 0 draws, 1 loss — about Elo 1,654**,
+comfortably above the 1,154 practice floor and the sunfish baseline.
 
 ## License
 
